@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Servicio para manejar las operaciones relacionadas con las reservas.
+ */
 @Service
 public class ReservaService {
 
@@ -18,14 +21,20 @@ public class ReservaService {
     }
 
     /**
-     * Obtiene todas las reservas en la base de datos
+     * Obtiene todas las reservas en la base de datos.
+     *
+     * @return una lista de todas las reservas
      */
     public List<Reserva> obtenerTodasLasReservas() {
         return reservaRepository.findAll();
     }
 
     /**
-     * Obtiene las reservas que coinciden con el rango de fechas proporcionado
+     * Obtiene las reservas que coinciden con el rango de fechas proporcionado.
+     *
+     * @param fechaInicio la fecha de inicio del rango
+     * @param fechaFin la fecha de fin del rango
+     * @return una lista de reservas que coinciden con el rango de fechas
      */
     public List<Reserva> obtenerReservasEntreFechas(LocalDate fechaInicio, LocalDate fechaFin) {
         return reservaRepository.findAll().stream()
@@ -45,7 +54,10 @@ public class ReservaService {
     }
 
     /**
-     * Obtiene una reserva por su ID
+     * Obtiene una reserva por su ID.
+     *
+     * @param id el ID de la reserva
+     * @return la reserva correspondiente al ID dado, o null si no se encuentra
      */
     public Reserva obtenerReservaPorId(String id) {
         return reservaRepository.findById(id).orElse(null);

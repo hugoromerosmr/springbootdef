@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
+/**
+ * Controlador para manejar las solicitudes relacionadas con las reservas.
+ */
 @Controller
 public class ReservaController {
 
@@ -24,6 +27,10 @@ public class ReservaController {
     /**
      * Muestra el formulario de reserva para el alojamiento dado.
      * El usuario solo debe seleccionar: fechaInicio, fechaFin, personas y moneda.
+     *
+     * @param alojamientoId el ID del alojamiento
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista para el formulario de reserva
      */
     @GetMapping("/reservar/{alojamientoId}")
     public String mostrarFormularioReserva(@PathVariable String alojamientoId, Model model) {
@@ -44,7 +51,14 @@ public class ReservaController {
         }
     }
 
-    // Método POST para procesar la reserva (sin cambios relevantes para este error)
+    /**
+     * Procesa la reserva para el alojamiento dado.
+     *
+     * @param alojamientoId el ID del alojamiento
+     * @param reserva el objeto Reserva con los datos de la reserva
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista para la confirmación de la reserva
+     */
     @PostMapping("/reservar/{alojamientoId}")
     public String procesarReserva(@PathVariable String alojamientoId,
                                   @ModelAttribute("reserva") Reserva reserva,
@@ -79,6 +93,8 @@ public class ReservaController {
 
     /**
      * Simulación de obtención del usuario logeado.
+     *
+     * @return el ID del usuario logeado
      */
     private String getLoggedInUserId() {
         return "usuario123";  // Valor de ejemplo

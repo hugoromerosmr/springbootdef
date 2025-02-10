@@ -1,12 +1,14 @@
 package org.example.letmalagaapp.models;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+/**
+ * Representa un usuario en la aplicación.
+ */
 @Document(collection = "usuarios")
 @AllArgsConstructor
 @Getter
@@ -18,8 +20,4 @@ public class Usuario {
     private String email;
     private String password;
     private String role = "USER";
-
-
 }
-
-

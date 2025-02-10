@@ -7,6 +7,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
+/**
+ * Representa un alojamiento en la aplicación.
+ */
 @Getter
 @Setter
 @Document(collection = "alojamientos")
@@ -20,7 +23,6 @@ public class Alojamiento {
     private String moneda;
     private List<String> imagenes;
     private String tipo;
-    private Direccion direccion;
     private int capacidadMaxima;
     private int habitaciones;
     private int banos;
@@ -32,22 +34,4 @@ public class Alojamiento {
     private List<String> restricciones;
     private String latitud;
     private String longitud;
-
-    // Clase interna para la dirección
-    @Getter
-    @Setter
-    public static class Direccion {
-        private String telefono;
-        private String email;
-    }
-
-    // Clase interna para la ubicación geográfica
-    @Getter
-    @Setter
-    public static class UbicacionGeografica {
-        private double latitud;
-        private double longitud;
-    }
-
-
 }

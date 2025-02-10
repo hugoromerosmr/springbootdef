@@ -11,17 +11,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Controlador para manejar las solicitudes relacionadas con "Alojamiento".
+ */
 @Controller
 public class AlojamientoController {
 
     private final AlojamientosService alojamientosService;
 
+    /**
+     * Constructor para AlojamientoController.
+     *
+     * @param alojamientosService el servicio para manejar las operaciones de alojamiento
+     */
     public AlojamientoController(AlojamientosService alojamientosService) {
         this.alojamientosService = alojamientosService;
     }
 
     /**
      * Muestra la galería completa de alojamientos.
+     *
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista para la galería
      */
     @GetMapping("/galeria")
     public String mostrarGaleria(Model model) {
@@ -32,7 +43,12 @@ public class AlojamientoController {
 
     /**
      * Busca alojamientos disponibles entre dos fechas.
-     * Se reciben las fechas en formato ISO (yyyy-MM-dd) y se pasan como LocalDate.
+     * Las fechas se reciben en formato ISO (yyyy-MM-dd) y se convierten a LocalDate.
+     *
+     * @param fechaInicio la fecha de inicio del período de búsqueda
+     * @param fechaFin la fecha de fin del período de búsqueda
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista para la galería
      */
     @GetMapping("/alojamientos/disponibles")
     public String buscarAlojamientosDisponibles(
@@ -50,9 +66,12 @@ public class AlojamientoController {
         return "galeria"; // La misma vista de la galería
     }
 
-
     /**
      * Muestra la vista de detalle de un alojamiento específico.
+     *
+     * @param id el ID del alojamiento
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista para la página de detalle
      */
     @GetMapping("/alojamiento")
     public String mostrarDetalle(@RequestParam("id") String id, Model model) {
@@ -63,13 +82,20 @@ public class AlojamientoController {
         model.addAttribute("alojamiento", alojamiento);
         return "detalle"; // Vista en templates/detalle.html
     }
+
+    /**
+     * Busca alojamientos por nombre.
+     *
+     * @param nombre el nombre del alojamiento a buscar
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista para la galería con los alojamientos filtrados
+     */
     @GetMapping("/alojamientos/buscar")
     public String buscarAlojamientosPorNombre(@RequestParam("nombre") String nombre, Model model) {
         List<Alojamiento> alojamientos = alojamientosService.buscarAlojamientosPorNombre(nombre);
         model.addAttribute("alojamientos", alojamientos);
-        // Deja en el modelo el valor del nombre para que se mantenga en el formulario.
+        // Deja en el modelo el valor del nombre para que se mantenga en el formulario
         model.addAttribute("nombre", nombre);
-        return "galeria"; // Recarga la misma vista de la galería con los alojamientos filtrados por nombre.
+        return "galeria"; // Recarga la misma vista de la galería con los alojamientos filtrados por nombre
     }
-
 }

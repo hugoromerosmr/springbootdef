@@ -10,6 +10,9 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Servicio para manejar las operaciones relacionadas con los alojamientos.
+ */
 @Service
 public class AlojamientosService {
 
@@ -23,6 +26,8 @@ public class AlojamientosService {
 
     /**
      * Obtiene todos los alojamientos disponibles en la base de datos.
+     *
+     * @return una lista de todos los alojamientos
      */
     public List<Alojamiento> obtenerTodosLosAlojamientos() {
         return alojamientoRepository.findAll();
@@ -30,6 +35,10 @@ public class AlojamientosService {
 
     /**
      * Obtiene los alojamientos disponibles en un rango de fechas.
+     *
+     * @param fechaInicioStr la fecha de inicio en formato de cadena
+     * @param fechaFinStr la fecha de fin en formato de cadena
+     * @return una lista de alojamientos disponibles en el rango de fechas dado
      */
     public List<Alojamiento> obtenerAlojamientosDisponibles(String fechaInicioStr, String fechaFinStr) {
         LocalDate fechaInicio = LocalDate.parse(fechaInicioStr);
@@ -60,14 +69,21 @@ public class AlojamientosService {
 
     /**
      * Obtiene un alojamiento por su ID.
+     *
+     * @param id el ID del alojamiento
+     * @return el alojamiento correspondiente al ID dado, o null si no se encuentra
      */
     public Alojamiento obtenerAlojamientoPorId(String id) {
         return alojamientoRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Busca alojamientos por nombre.
+     *
+     * @param nombre el nombre del alojamiento a buscar
+     * @return una lista de alojamientos que coinciden con el nombre dado
+     */
     public List<Alojamiento> buscarAlojamientosPorNombre(String nombre) {
-        // Implementa aquí la búsqueda, por ejemplo:
         return alojamientoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 }
-
