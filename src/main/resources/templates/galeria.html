@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galería de Alojamientos</title>
     <style>
+        /* Estilos generales */
         body {
             font-family: Arial, sans-serif;
             background-color: #f4f4f9;
@@ -16,8 +17,62 @@
             width: 90%;
             margin: 0 auto;
             padding: 20px;
+            text-align: center;
         }
 
+        /* Logo centrado */
+        .logo {
+            width: 200px;
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        /* Buscador de fechas */
+        .buscador {
+            background-color: #082e34;
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .buscador form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .buscador label {
+            font-weight: bold;
+        }
+
+        .buscador input {
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        .buscador button {
+            background-color: #f1bb7d;
+            color: #082e34;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .buscador button:hover {
+            background-color: #e0a45d;
+        }
+
+        /* Galería */
         .galeria-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -30,7 +85,12 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .alojamiento-card:hover {
+            transform: scale(1.05);
         }
 
         .alojamiento-card img {
@@ -41,9 +101,9 @@
         }
 
         .alojamiento-card h3 {
-            margin: 15px;
+            margin: 10px;
             font-size: 20px;
-            color: #333;
+            color: #082e34;
         }
 
         .alojamiento-card p {
@@ -55,34 +115,62 @@
         .alojamiento-card .precio {
             font-size: 18px;
             font-weight: bold;
-            color: #007BFF;
+            color: #f1bb7d;
         }
+
+        .alojamiento-card a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #f1bb7d;
+            color: #082e34;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .alojamiento-card a:hover {
+            background-color: #e0a45d;
+        }
+
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Galería de Alojamientos</h2>
+    <!-- Logo centrado -->
+    <img src="https://i.postimg.cc/8PMvztMy/Instagram-post-para-tienda-de-cosm-ticos-minimalista-blanco-y-beige-600-x-500-mm-Document-A4.png" alt="Logo" class="logo">
 
+    <!-- Buscador por fechas -->
+    <div class="buscador">
+        <form action="/alojamientos/disponibles" method="get">
+            <label for="fechaInicio">Fecha inicio:</label>
+            <input type="date" id="fechaInicio" name="fechaInicio" required>
+            <label for="fechaFin">Fecha fin:</label>
+            <input type="date" id="fechaFin" name="fechaFin" required>
+            <button type="submit">Buscar</button>
+        </form>
+    </div>
+
+    <!-- Galería de alojamientos -->
     <div class="galeria-container">
-        <!-- Itera sobre la lista de alojamientos -->
         <div th:each="alojamiento : ${alojamientos}" class="alojamiento-card">
-            <!-- Verifica si hay imágenes antes de intentar mostrarlas -->
             <img th:if="${not #lists.isEmpty(alojamiento.imagenes)}"
                  th:src="@{${alojamiento.imagenes[0]}}"
                  alt="Imagen de alojamiento">
 
-            <!-- Si no hay imágenes, mostrar imagen por defecto -->
             <img th:unless="${not #lists.isEmpty(alojamiento.imagenes)}"
                  src="/images/default.jpg"
                  alt="Sin imagen disponible">
 
             <h3 th:text="${alojamiento.nombre}">Nombre del Alojamiento</h3>
-            <p th:text="${alojamiento.descripcion}">Descripción del alojamiento...</p>
-            <p class="precio" th:text="'Precio por noche: ' + ${alojamiento.precio_minimo} + ' ' + ${alojamiento.moneda}">Precio</p>
+            <p th:text="${alojamiento.descripcion}">Descripción...</p>
+            <p class="precio" th:text="'Precio por noche: ' + ${alojamiento.precio_minimo} + ' ' + ${alojamiento.moneda}"></p>
+            <a th:href="@{/alojamiento(id=${alojamiento.id})}">Ver detalles</a>
         </div>
     </div>
 </div>
-z
+
 </body>
 </html>

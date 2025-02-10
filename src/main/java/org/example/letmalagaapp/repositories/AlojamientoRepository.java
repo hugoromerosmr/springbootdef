@@ -8,9 +8,10 @@ import java.util.List;
 
 @Repository
 public interface AlojamientoRepository extends MongoRepository<Alojamiento, String> {
-    // Puedes agregar consultas personalizadas aquí si lo necesitas
-    // Por ejemplo, buscar alojamientos por nombre:
+
     List<Alojamiento> findByNombreContaining(String nombre);
+
+
 
 
 }

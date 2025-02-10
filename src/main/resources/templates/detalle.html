@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${alojamiento.nombre}">Detalle del Alojamiento</title>
+    <!-- Swiper CSS para el slider de imágenes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.0.5/swiper-bundle.min.css">
+    <style>
+        /* Fondo de página en color principal (#082e34) */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #082e34;
+            margin: 0;
+            padding: 0;
+            /* Aunque se hereda, en el contenedor se usará otro color para el contenido */
+        }
+        /* Contenedor central con fondo blanco para contrastar */
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            color: #082e34; /* Se mantiene el color principal en títulos */
+            text-align: center;
+            margin-top: 0;
+        }
+        .info {
+            font-size: 16px;
+            margin: 10px 0;
+            text-align: left;
+            color: #082e34;
+        }
+        .info strong {
+            color: #082e34;
+        }
+        .rating {
+            color: #d4a063; /* Color secundario para acentos */
+            font-weight: bold;
+        }
+
+        /* Botón de reserva usando el color principal para el fondo */
+        .btn-reserva {
+            display: block;
+            width: 80%;
+            margin: 20px auto;
+            padding: 12px 20px;
+            background-color: #082e34;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .btn-reserva:hover {
+            background-color: #071f2a; /* Un tono ligeramente más oscuro */
+        }
+
+        /* Slider de imágenes */
+        .swiper {
+            width: 100%;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Listas: Equipamiento, Servicios y Restricciones */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #f4f4f9;
+            margin: 5px 0;
+            padding: 8px 10px;
+            border-radius: 5px;
+            text-align: left;
+            color: #082e34;
+        }
+
+        /* Mapa */
+        .map-container {
+            margin-top: 20px;
+        }
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Título y botón de reserva -->
+    <h2 th:text="${alojamiento.nombre}">Nombre del Alojamiento</h2>
+    <a th:href="'/reservar/' + ${alojamiento.id}" class="btn-reserva">Reservar Ahora</a>
+
+    <!-- Información del alojamiento -->
+    <p class="info"><strong>Tipo:</strong> <span th:text="${alojamiento.tipo}"></span></p>
+    <p class="info"><strong>Descripción:</strong> <span th:text="${alojamiento.descripcion}"></span></p>
+    <p class="info"><strong>Capacidad Máxima:</strong> <span th:text="${alojamiento.capacidadMaxima}"></span> personas</p>
+    <p class="info"><strong>Habitaciones:</strong> <span th:text="${alojamiento.habitaciones}"></span></p>
+    <p class="info"><strong>Baños:</strong> <span th:text="${alojamiento.banos}"></span></p>
+    <p class="info">
+        <strong>Precio:</strong>
+        <span th:text="${alojamiento.precioMinimo}"></span> -
+        <span th:text="${alojamiento.precioMaximo}"></span>
+        <span th:text="${alojamiento.moneda}"></span>
+    </p>
+    <p class="info"><strong>Rating:</strong> <span class="rating" th:text="${alojamiento.rating}"></span> ⭐</p>
+
+    <!-- Slider de imágenes -->
+    <h3>Imágenes</h3>
+    <div class="swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" th:each="img : ${alojamiento.imagenes}">
+                <img th:src="${img}" alt="Imagen del alojamiento">
+            </div>
+        </div>
+        <!-- Botones de navegación del slider -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+    </div>
+
+    <!-- Equipamiento -->
+    <h3>Equipamiento</h3>
+    <ul>
+        <li th:each="item : ${alojamiento.equipamiento}" th:text="${item}"></li>
+    </ul>
+
+    <!-- Servicios -->
+    <h3>Servicios</h3>
+    <ul>
+        <li th:each="servicio : ${alojamiento.servicios}" th:text="${servicio}"></li>
+    </ul>
+
+    <!-- Restricciones -->
+    <h3>Restricciones</h3>
+    <ul>
+        <li th:each="restriccion : ${alojamiento.restricciones}" th:text="${restriccion}"></li>
+    </ul>
+
+    <!-- Mapa de ubicación -->
+    <h3>Ubicación Geográfica</h3>
+    <div class="map-container">
+        <iframe th:src="'https://www.google.com/maps?q=' + ${alojamiento.latitud} + ',' + ${alojamiento.longitud} + '&output=embed'" allowfullscreen></iframe>
+    </div>
+
+    <!-- Botón de reserva al final -->
+    <a th:href="'/reservar/' + ${alojamiento.id}" class="btn-reserva">Reservar Ahora</a>
+</div>
+
+<!-- Swiper JS para el slider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.0.5/swiper-bundle.min.js"></script>
+<script>
+    var swiper = new Swiper('.swiper', {
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        }
+    });
+</script>
+</body>
+</html>
