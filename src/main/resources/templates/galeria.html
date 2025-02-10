@@ -12,75 +12,89 @@
             margin: 0;
             padding: 0;
         }
-
         .container {
             width: 90%;
             margin: 0 auto;
             padding: 20px;
             text-align: center;
         }
-
-        /* Logo centrado */
-        .logo {
-            width: 200px;
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 20px;
-        }
-
-        /* Buscador de fechas */
-        .buscador {
+        /* Cabecera */
+        header {
             background-color: #082e34;
-            padding: 15px;
-            border-radius: 8px;
-            color: white;
+            padding: 20px 0;
+            color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
-
-        .buscador form {
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-container {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .logo {
+            max-height: 80px;  /* Limita la altura a 80px */
+            width: auto;
+            margin-left: -30px/* El ancho se ajusta automáticamente */
+        }
+
+        .search-bar {
+            flex: 2;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
             justify-content: center;
+        }
+        .search-bar form {
+            background-color: #ffffff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
             gap: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
-
-        .buscador label {
+        .search-bar label {
             font-weight: bold;
+            color: #082e34;
         }
-
-        .buscador input {
-            padding: 8px;
-            border-radius: 5px;
+        .search-bar input[type="date"],
+        .search-bar input[type="text"] {
+            padding: 6px;
             border: 1px solid #ddd;
+            border-radius: 4px;
         }
-
-        .buscador button {
+        .search-bar button,
+        .clear-filter-button {
             background-color: #f1bb7d;
             color: #082e34;
             border: none;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
+            padding: 8px 12px;
             border-radius: 5px;
+            cursor: pointer;
             transition: background 0.3s;
         }
-
-        .buscador button:hover {
-            background-color: #e0a45d;
+        .search-bar button:hover,
+        .clear-filter-button:hover {
+            background-color: #b98c50;
         }
-
         /* Galería */
         .galeria-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
-
         .alojamiento-card {
-            background-color: white;
+            background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             overflow: hidden;
@@ -88,36 +102,30 @@
             padding: 15px;
             transition: transform 0.3s ease-in-out;
         }
-
         .alojamiento-card:hover {
             transform: scale(1.05);
         }
-
         .alojamiento-card img {
             width: 100%;
             height: 200px;
             object-fit: cover;
             border-radius: 8px;
         }
-
         .alojamiento-card h3 {
             margin: 10px;
             font-size: 20px;
             color: #082e34;
         }
-
         .alojamiento-card p {
             margin: 10px;
             color: #555;
             font-size: 14px;
         }
-
         .alojamiento-card .precio {
             font-size: 18px;
             font-weight: bold;
             color: #f1bb7d;
         }
-
         .alojamiento-card a {
             display: inline-block;
             margin-top: 10px;
@@ -129,41 +137,149 @@
             font-weight: bold;
             transition: background 0.3s;
         }
-
         .alojamiento-card a:hover {
             background-color: #e0a45d;
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .search-bar {
+                flex-direction: column;
+            }
+        }
+        /* CSS exclusivo para la cabecera */
+        #main-header {
+            background-color: #082e34; /* Contenedor blanco */
+            padding: 8px 18px;        /* Padding compacto */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        #main-header .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;       /* Alineación vertical centrada */
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        #main-header .logo-container {
+            flex: 0 0 auto;
+            text-align: center;
+        }
+
+        #main-header .logo {
+            height: 80px;              /* Alto del logo (ajústalo según sea necesario) */
+            max-width: 100%;
+        }
+
+        #main-header .search-forms {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            justify-content: flex-end;
+        }
+
+        #main-header .search-form {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #f9f9f9;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        #main-header .search-form label {
+            font-weight: bold;
+            color: #082e34;
+        }
+
+        #main-header .search-form input[type="date"],
+        #main-header .search-form input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        #main-header .search-form button,
+        #main-header .clear-filter-button {
+            background-color: #f1bb7d;
+            color: #082e34;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none; /* Para el enlace de borrar filtro */
+        }
+
+        #main-header .search-form button:hover,
+        #main-header .clear-filter-button:hover {
+            background-color: #b98c50;
+        }
+
+        /* Responsive: en pantallas pequeñas, apilar en columna */
+        @media (max-width: 768px) {
+            #main-header .header-inner {
+                flex-direction: column;
+            }
+            #main-header .search-forms {
+                flex-direction: column;
+                width: 80%;
+            }
         }
 
     </style>
 </head>
 <body>
-
-<div class="container">
-    <!-- Logo centrado -->
-    <img src="https://i.postimg.cc/8PMvztMy/Instagram-post-para-tienda-de-cosm-ticos-minimalista-blanco-y-beige-600-x-500-mm-Document-A4.png" alt="Logo" class="logo">
-
-    <!-- Buscador por fechas -->
-    <div class="buscador">
-        <form action="/alojamientos/disponibles" method="get">
-            <label for="fechaInicio">Fecha inicio:</label>
-            <input type="date" id="fechaInicio" name="fechaInicio" required>
-            <label for="fechaFin">Fecha fin:</label>
-            <input type="date" id="fechaFin" name="fechaFin" required>
-            <button type="submit">Buscar</button>
-        </form>
+<!-- Cabecera -->
+<!-- Fragmento de Cabecera -->
+<header id="main-header">
+    <div class="header-inner">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="https://i.postimg.cc/8PMvztMy/Instagram-post-para-tienda-de-cosm-ticos-minimalista-blanco-y-beige-600-x-500-mm-Document-A4.png" alt="Logo" class="logo">
+        </div>
+        <!-- Formularios de Búsqueda -->
+        <div class="search-forms">
+            <!-- Buscador por Fechas -->
+            <form action="/alojamientos/disponibles" method="get" class="search-form">
+                <label for="fechaInicio">Inicio:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" required th:value="${fechaInicio}">
+                <label for="fechaFin">Fin:</label>
+                <input type="date" id="fechaFin" name="fechaFin" required th:value="${fechaFin}">
+                <button type="submit">Buscar</button>
+                <a href="/galeria" class="clear-filter-button">Borrar</a>
+            </form>
+            <!-- Buscador por Nombre -->
+            <form action="/alojamientos/buscar" method="get" class="search-form">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Buscar..." th:value="${nombre}">
+                <button type="submit">Buscar</button>
+                <a href="/galeria" class="clear-filter-button">Borrar</a>
+            </form>
+        </div>
     </div>
+</header>
 
+
+<!-- Contenido Principal -->
+<div class="container">
     <!-- Galería de alojamientos -->
     <div class="galeria-container">
         <div th:each="alojamiento : ${alojamientos}" class="alojamiento-card">
             <img th:if="${not #lists.isEmpty(alojamiento.imagenes)}"
                  th:src="@{${alojamiento.imagenes[0]}}"
                  alt="Imagen de alojamiento">
-
             <img th:unless="${not #lists.isEmpty(alojamiento.imagenes)}"
                  src="/images/default.jpg"
                  alt="Sin imagen disponible">
-
             <h3 th:text="${alojamiento.nombre}">Nombre del Alojamiento</h3>
             <p th:text="${alojamiento.descripcion}">Descripción...</p>
             <p class="precio" th:text="'Precio por noche: ' + ${alojamiento.precio_minimo} + ' ' + ${alojamiento.moneda}"></p>
@@ -171,6 +287,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

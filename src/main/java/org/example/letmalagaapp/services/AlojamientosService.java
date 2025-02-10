@@ -64,4 +64,10 @@ public class AlojamientosService {
     public Alojamiento obtenerAlojamientoPorId(String id) {
         return alojamientoRepository.findById(id).orElse(null);
     }
+
+    public List<Alojamiento> buscarAlojamientosPorNombre(String nombre) {
+        // Implementa aquí la búsqueda, por ejemplo:
+        return alojamientoRepository.findByNombreContainingIgnoreCase(nombre);
+    }
 }
+

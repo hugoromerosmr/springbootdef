@@ -13,7 +13,6 @@
             background-color: #082e34;
             margin: 0;
             padding: 0;
-            /* Aunque se hereda, en el contenedor se usará otro color para el contenido */
         }
         /* Contenedor central con fondo blanco para contrastar */
         .container {
@@ -25,7 +24,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         h2, h3 {
-            color: #082e34; /* Se mantiene el color principal en títulos */
+            color: #082e34;
             text-align: center;
             margin-top: 0;
         }
@@ -42,7 +41,6 @@
             color: #d4a063; /* Color secundario para acentos */
             font-weight: bold;
         }
-
         /* Botón de reserva usando el color principal para el fondo */
         .btn-reserva {
             display: block;
@@ -58,9 +56,8 @@
             transition: background 0.3s;
         }
         .btn-reserva:hover {
-            background-color: #071f2a; /* Un tono ligeramente más oscuro */
+            background-color: #071f2a;
         }
-
         /* Slider de imágenes */
         .swiper {
             width: 100%;
@@ -74,7 +71,6 @@
             height: 100%;
             object-fit: cover;
         }
-
         /* Listas: Equipamiento, Servicios y Restricciones */
         ul {
             list-style: none;
@@ -88,7 +84,6 @@
             text-align: left;
             color: #082e34;
         }
-
         /* Mapa */
         .map-container {
             margin-top: 20px;
@@ -155,7 +150,7 @@
     <!-- Mapa de ubicación -->
     <h3>Ubicación Geográfica</h3>
     <div class="map-container">
-        <iframe th:src="'https://www.google.com/maps?q=' + ${alojamiento.latitud} + ',' + ${alojamiento.longitud} + '&output=embed'" allowfullscreen></iframe>
+        <iframe th:src="@{'https://www.google.com/maps?q=' + ${alojamiento.latitud} + ',' + ${#strings.replace(alojamiento.longitud, ',', '.')} + '&output=embed'}" allowfullscreen></iframe>
     </div>
 
     <!-- Botón de reserva al final -->
@@ -165,13 +160,16 @@
 <!-- Swiper JS para el slider -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.0.5/swiper-bundle.min.js"></script>
 <script>
-    var swiper = new Swiper('.swiper', {
-        loop: true,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev'
-        }
-    });
+    // Usamos window.onload para asegurarnos de que todos los elementos estén cargados
+    window.onload = function() {
+        var swiper = new Swiper('.swiper', {
+            loop: true,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev'
+            }
+        });
+    };
 </script>
 </body>
 </html>

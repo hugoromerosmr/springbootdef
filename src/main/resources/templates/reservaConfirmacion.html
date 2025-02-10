@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva Confirmada</title>
+    <style>
+        /* Centrado de la página con fondo principal */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #082e34;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #082e34;
+        }
+        /* Contenedor principal, blanco y grande */
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #082e34;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .details {
+            font-size: 20px;
+            margin: 20px 0;
+            line-height: 1.5;
+            color: #082e34;
+        }
+        .details p {
+            margin: 10px 0;
+        }
+        .details span.label {
+            font-weight: bold;
+        }
+        .btn-home {
+            background-color: #d4a063;
+            color: #ffffff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            text-decoration: none;
+            margin-top: 30px;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .btn-home:hover {
+            background-color: #b98c50;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>¡Reserva Confirmada!</h1>
+    <div class="details">
+        <!-- Mensaje de confirmación -->
+        <p th:text="${mensaje}">¡Reserva realizada exitosamente!</p>
+        <p>
+            <span class="label">Precio Total:</span>
+            <span th:text="${reserva.total}">0.00</span>
+            <span th:text="${reserva.moneda}">Moneda</span>
+        </p>
+        <p>
+            <span class="label">Fecha de Inicio:</span>
+            <span th:text="${#temporals.format(reserva.fechaInicio, 'dd/MM/yyyy')}">01/01/2025</span>
+        </p>
+        <p>
+            <span class="label">Fecha de Fin:</span>
+            <span th:text="${#temporals.format(reserva.fechaFin, 'dd/MM/yyyy')}">02/01/2025</span>
+        </p>
+        <p>
+            <span class="label">Número de Personas:</span>
+            <span th:text="${reserva.personas}">1</span>
+        </p>
+    </div>
+    <a href="/galeria" class="btn-home">Volver al inicio</a>
+</div>
+</body>
+</html>

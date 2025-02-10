@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva para el Alojamiento</title>
+    <style>
+        /* Centrado de la página */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #082e34;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #082e34;
+        }
+        /* Contenedor principal más grande y centrado */
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        /* Bloques internos */
+        .block {
+            flex: 1 1 400px;
+            padding: 20px;
+        }
+        /* Estilos para la información del apartamento */
+        .apartment-info h2 {
+            text-align: center;
+            color: #082e34;
+            margin-bottom: 10px;
+        }
+        .apartment-info p {
+            text-align: justify;
+            margin: 8px 0;
+            color: #082e34;
+        }
+        .apartment-info img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        /* Estilos para el formulario de reserva */
+        .reservation-form h2 {
+            text-align: center;
+            color: #082e34;
+            margin-bottom: 20px;
+        }
+        .reservation-form form div {
+            margin-bottom: 15px;
+        }
+        .reservation-form label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #082e34;
+        }
+        .reservation-form input[type="date"],
+        .reservation-form input[type="number"],
+        .reservation-form input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .reservation-form button {
+            background-color: #d4a063;
+            color: #ffffff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .reservation-form button:hover {
+            background-color: #b98c50;
+        }
+        /* Botón de volver atrás */
+        .back-button {
+            display: inline-block;
+            background-color: #d4a063;
+            color: #ffffff;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .back-button:hover {
+            background-color: #b98c50;
+        }
+
+        .reservation-form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* Ajustes responsive */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- Botón de volver atrás -->
+    <div style="width: 100%; text-align: left;">
+        <a href="javascript:history.back()" class="back-button">Volver atrás</a>
+    </div>
+    <!-- Bloque con la información del apartamento -->
+    <div class="block apartment-info">
+        <h2 th:text="${alojamiento.nombre}">Nombre del Alojamiento</h2>
+        <p th:text="${alojamiento.descripcion}">Descripción del alojamiento</p>
+        <img th:if="${not #lists.isEmpty(alojamiento.imagenes)}"
+             th:src="@{${alojamiento.imagenes[0]}}"
+             alt="Imagen de alojamiento">
+    </div>
+    <!-- Bloque con el formulario de reserva -->
+    <div class="block reservation-form">
+        <h2>Reserva</h2>
+        <form th:action="@{'/reservar/' + ${alojamiento.id}}" method="post">
+            <div>
+                <label for="fechaInicio">Fecha de Inicio:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" required>
+            </div>
+            <div>
+                <label for="fechaFin">Fecha de Fin:</label>
+                <input type="date" id="fechaFin" name="fechaFin" required>
+            </div>
+            <div>
+                <label for="personas">Número de Personas:</label>
+                <input type="number" id="personas" name="personas" required>
+            </div>
+            <div>
+                <label for="moneda">Moneda:</label>
+                <select id="moneda" name="moneda" required>
+                    <option value="euro">Euro</option>
+                    <option value="dolar">Dólar</option>
+                </select>
+            </div>
+
+            <button type="submit">Confirmar Reserva</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
