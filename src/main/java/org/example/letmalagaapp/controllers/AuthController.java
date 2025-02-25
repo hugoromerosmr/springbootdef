@@ -84,21 +84,15 @@ public class AuthController {
      */
     @GetMapping("/logout")
     public String logout(HttpServletRequest request, HttpServletResponse response) {
-        // Limpiar el contexto de seguridad
         SecurityContextHolder.clearContext();
 
-        // Invalidar la sesión del servidor
         request.getSession().invalidate();
 
-        // Eliminar cualquier cookie de sesión (si estás usando cookies)
         Cookie logoutCookie = new Cookie("JSESSIONID", null);
         logoutCookie.setPath("/");
         logoutCookie.setMaxAge(0);  // Invalida la cookie
         response.addCookie(logoutCookie);
 
-        // Redirigir al login con el parámetro logout
         return "redirect:/auth/login?logout";
     }
-
-
 }

@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 import java.util.List;
 
+/**
+ * Configuración de seguridad para la aplicación.
+ */
 @Configuration
 public class SecurityConfig {
 
@@ -20,6 +23,14 @@ public class SecurityConfig {
     public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
+
+    /**
+     * Configura la cadena de filtros de seguridad.
+     *
+     * @param http el objeto HttpSecurity
+     * @return la cadena de filtros de seguridad configurada
+     * @throws Exception si ocurre un error durante la configuración
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -46,8 +57,11 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-
+    /**
+     * Configura el gestor de autenticación.
+     *
+     * @return el gestor de autenticación configurado
+     */
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -56,6 +70,11 @@ public class SecurityConfig {
         return new ProviderManager(List.of(authProvider));
     }
 
+    /**
+     * Configura el codificador de contraseñas.
+     *
+     * @return el codificador de contraseñas BCrypt
+     */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

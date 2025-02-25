@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controlador para manejar las solicitudes relacionadas con las reservas.
+ */
 @Controller
 public class ReservaController {
 
@@ -27,6 +30,13 @@ public class ReservaController {
     @Autowired
     private AlojamientoRepository alojamientoRepository;
 
+    /**
+     * Muestra el formulario de reserva para un alojamiento específico.
+     *
+     * @param alojamientoId el ID del alojamiento
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista para el formulario de reserva
+     */
     @GetMapping("/reservar/{alojamientoId}")
     public String mostrarFormularioReserva(@PathVariable String alojamientoId, Model model) {
         Optional<Alojamiento> alojamientoOpt = alojamientoRepository.findById(alojamientoId);
@@ -43,6 +53,14 @@ public class ReservaController {
         }
     }
 
+    /**
+     * Procesa la reserva de un alojamiento.
+     *
+     * @param alojamientoId el ID del alojamiento
+     * @param reserva la reserva a procesar
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista de confirmación de reserva
+     */
     @PostMapping("/reservar/{alojamientoId}")
     public String procesarReserva(@PathVariable String alojamientoId,
                                   @ModelAttribute("reserva") Reserva reserva,
@@ -52,23 +70,19 @@ public class ReservaController {
             Alojamiento alojamiento = alojamientoOpt.get();
             double precioPorNoche = alojamiento.getPrecio_minimo();
 
-            // Validación de fechas
             if (reserva.getFechaInicio().isAfter(reserva.getFechaFin())) {
                 model.addAttribute("mensaje", "La fecha de inicio no puede ser posterior a la fecha de fin.");
                 return "reservaForm";
             }
 
-            // Obtener el usuario autenticado
             String usuarioEmail = getLoggedInUserId(); // Ahora guardamos el email del usuario autenticado
             if (usuarioEmail == null) {
                 model.addAttribute("mensaje", "Debes iniciar sesión para hacer una reserva.");
                 return "login";
             }
 
-            // Asignar el usuario autenticado a la reserva
             reserva.setUsuarioId(usuarioEmail); // ✅ Guardamos el email en lugar de "usuario123"
 
-            // Calcular el total de la reserva
             long dias = ChronoUnit.DAYS.between(reserva.getFechaInicio(), reserva.getFechaFin());
             reserva.setTotal(precioPorNoche * Math.max(dias, 1));
             reserva.setEstado("pagada");
@@ -82,6 +96,13 @@ public class ReservaController {
             return "error";
         }
     }
+
+    /**
+     * Muestra las reservas del usuario autenticado.
+     *
+     * @param model el modelo para agregar atributos
+     * @return el nombre de la vista para las reservas del usuario
+     */
     @GetMapping("/mis-reservas")
     public String verMisReservas(Model model) {
         String usuarioId = getLoggedInUserId();
@@ -99,8 +120,6 @@ public class ReservaController {
             reservaDTO.setTotal(reserva.getTotal());
             reservaDTO.setEstado(reserva.getEstado());
 
-
-            // Obtener el nombre del alojamiento
             Optional<Alojamiento> alojamientoOpt = alojamientoRepository.findById(reserva.getAlojamientoId());
             if (alojamientoOpt.isPresent()) {
                 reservaDTO.setNombreAlojamiento(alojamientoOpt.get().getNombre());
@@ -120,8 +139,11 @@ public class ReservaController {
         return "reservas";
     }
 
-
-
+    /**
+     * Obtiene el ID del usuario autenticado.
+     *
+     * @return el ID del usuario autenticado, o null si no hay usuario autenticado
+     */
     private String getLoggedInUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -136,7 +158,4 @@ public class ReservaController {
 
         return null;
     }
-
-
-
 }
