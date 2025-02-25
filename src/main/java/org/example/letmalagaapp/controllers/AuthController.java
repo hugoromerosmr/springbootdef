@@ -1,13 +1,20 @@
 package org.example.letmalagaapp.controllers;
 
-import org.example.letmalagaapp.security.AuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.example.letmalagaapp.models.Usuario;
-import org.springframework.http.ResponseEntity;
+import org.example.letmalagaapp.security.AuthService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import org.springframework.http.ResponseEntity;
 
 /**
  * Controlador para manejar las solicitudes relacionadas con la autenticación.
@@ -17,20 +24,15 @@ import java.util.Map;
 public class AuthController {
 
     private final AuthService authService;
+    private final AuthenticationManager authenticationManager;
 
-    /**
-     * Constructor para AuthController.
-     *
-     * @param authService el servicio para manejar las operaciones de autenticación
-     */
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, AuthenticationManager authenticationManager) {
         this.authService = authService;
+        this.authenticationManager = authenticationManager;
     }
 
     /**
      * Muestra la página de inicio de sesión.
-     *
-     * @return el nombre de la vista para la página de inicio de sesión
      */
     @GetMapping("/login")
     public String loginPage() {
@@ -39,8 +41,6 @@ public class AuthController {
 
     /**
      * Muestra la página de registro.
-     *
-     * @return el nombre de la vista para la página de registro
      */
     @GetMapping("/register")
     public String registerPage() {
@@ -48,20 +48,21 @@ public class AuthController {
     }
 
     /**
-     * Maneja la solicitud de inicio de sesión.
-     *
-     * @param username el nombre de usuario
-     * @param password la contraseña
-     * @param model el modelo para agregar atributos
-     * @return redirige a la galería si el inicio de sesión es exitoso, de lo contrario, muestra la página de inicio de sesión con un mensaje de error
+     * Maneja la solicitud de inicio de sesión con autenticación en Spring Security.
      */
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
-        String token = authService.login(username, password);
+        try {
+            // Realiza la autenticación en Spring Security
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
 
-        if (token != null) {
-            return "redirect:/galeria";
-        } else {
+            // Establece la sesión en el contexto de seguridad
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            return "redirect:/mis-reservas"; // Redirige a la página de reservas tras el login
+        } catch (Exception e) {
             model.addAttribute("error", "Credenciales incorrectas");
             return "login";
         }
@@ -69,9 +70,6 @@ public class AuthController {
 
     /**
      * Maneja la solicitud de registro.
-     *
-     * @param usuario el objeto Usuario con los datos del nuevo usuario
-     * @return una respuesta con un mensaje de éxito si el registro es exitoso
      */
     @PostMapping("/register")
     @ResponseBody
@@ -80,4 +78,27 @@ public class AuthController {
         Usuario newUser = authService.registrar(usuario);
         return ResponseEntity.ok(Map.of("message", "Usuario registrado con éxito"));
     }
+
+    /**
+     * Maneja la solicitud de cierre de sesión.
+     */
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        // Limpiar el contexto de seguridad
+        SecurityContextHolder.clearContext();
+
+        // Invalidar la sesión del servidor
+        request.getSession().invalidate();
+
+        // Eliminar cualquier cookie de sesión (si estás usando cookies)
+        Cookie logoutCookie = new Cookie("JSESSIONID", null);
+        logoutCookie.setPath("/");
+        logoutCookie.setMaxAge(0);  // Invalida la cookie
+        response.addCookie(logoutCookie);
+
+        // Redirigir al login con el parámetro logout
+        return "redirect:/auth/login?logout";
+    }
+
+
 }

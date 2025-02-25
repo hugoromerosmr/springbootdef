@@ -223,6 +223,47 @@
         #main-header .clear-filter-button:hover {
             background-color: #b98c50;
         }
+        /* Estilos para el icono de usuario */
+        .user-menu {
+            position: relative;
+            display: inline-block;
+        }
+
+        .user-icon img {
+
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #f1bb7d;
+            padding: 5px;
+        }
+
+        /* Estilos para el menú desplegable */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            width: 150px;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #082e34;
+            transition: background 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f1bb7d;
+            color: white;
+        }
+
 
         /* Responsive: en pantallas pequeñas, apilar en columna */
         @media (max-width: 768px) {
@@ -265,6 +306,17 @@
                 <a href="/galeria" class="clear-filter-button">Borrar</a>
             </form>
         </div>
+        <!-- Icono de usuario con menú desplegable -->
+        <div class="user-menu">
+            <div class="user-icon" onclick="toggleMenu()">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTig-zFtmBRabuRTZSXi0Ie1-bGKkSg6XlmHw&s" alt="Usuario">
+            </div>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="/mis-reservas">Mis Reservas</a>
+                <a href="/auth/logout">Cerrar Sesión</a>
+            </div>
+        </div>
+
     </div>
 </header>
 
@@ -288,4 +340,18 @@
     </div>
 </div>
 </body>
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("dropdownMenu");
+        menu.style.display = (menu.style.display === "block") ? "none" : "block";
+    }
+
+    // Cerrar el menú si el usuario hace clic fuera de él
+    window.onclick = function(event) {
+        if (!event.target.closest('.user-menu')) {
+            document.getElementById("dropdownMenu").style.display = "none";
+        }
+    };
+</script>
+
 </html>

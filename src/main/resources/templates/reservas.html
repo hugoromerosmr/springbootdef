@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Reservas</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #082e34; /* Fondo verde oscuro */
+            margin: 0;
+            padding: 20px;
+            color: #ffffff; /* Texto blanco para mejor contraste */
+        }
+
+        /* Contenedor principal */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            text-align: center;
+        }
+
+        /* Título principal */
+        h1 {
+            color: #d4a063; /* Amarillo dorado */
+            font-size: 36px;
+            font-weight: 700; /* Más grueso */
+            margin-bottom: 20px;
+            text-transform: uppercase; /* Mayúsculas */
+            letter-spacing: 1.5px; /* Espaciado entre letras */
+        }
+
+        /* Tarjeta de cada reserva */
+        .card {
+            background: #ffffff; /* Fondo blanco */
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            width: 80%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center; /* Alinear verticalmente */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Logo en la tarjeta */
+        .card-logo {
+            width: 220px; /* Tamaño del logo */
+            height: auto;
+            margin-right: 100px; /* Espacio entre el logo y el contenido */
+            border-radius: 10px; /* Bordes redondeados */
+        }
+
+        /* Contenido de la reserva */
+        .card-content {
+            flex: 1; /* Ocupa el espacio restante */
+            text-align: left; /* Alinear el texto a la izquierda */
+        }
+
+        .card h3 {
+            margin: 10px 0;
+            font-size: 24px;
+            color: #082e34; /* Verde oscuro */
+            font-weight: 600; /* Más grueso */
+        }
+
+        .card p {
+            margin: 10px 0;
+            color: #555; /* Texto gris oscuro */
+            font-size: 18px;
+        }
+
+        .estado {
+            font-weight: bold;
+            color: #d4a063; /* Amarillo dorado */
+            font-size: 20px;
+        }
+
+        /* Botón de ver alojamiento */
+        .button {
+            background-color: #d4a063; /* Amarillo dorado */
+            color: #ffffff; /* Texto blanco */
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .button:hover {
+            background-color: #b98c50; /* Amarillo dorado más oscuro */
+            transform: scale(1.05);
+        }
+
+        /* Mensajes */
+        .mensaje {
+            color: #d4a063; /* Amarillo dorado */
+            font-size: 18px;
+            margin-top: 20px;
+        }
+
+        /* Ajustes responsive */
+        @media (max-width: 768px) {
+            .card {
+                width: 100%;
+                padding: 15px;
+                flex-direction: column; /* Cambiar a una columna en móviles */
+                align-items: center;
+            }
+
+            .card-logo {
+                margin-right: 0; /* Eliminar margen en móviles */
+                margin-bottom: 15px; /* Espacio entre el logo y el contenido */
+                width: 180px; /* Reducir tamaño del logo en móviles */
+            }
+
+            .card-content {
+                text-align: center; /* Centrar el texto en móviles */
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .card h3 {
+                font-size: 20px;
+            }
+
+            .card p {
+                font-size: 16px;
+            }
+
+            .button {
+                font-size: 14px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Mis Reservas</h1>
+
+    <!-- Mensaje si no hay reservas -->
+    <p th:if="${mensaje}" th:text="${mensaje}" class="mensaje"></p>
+
+    <!-- Lista de Reservas -->
+    <div th:each="reserva : ${reservas}" class="card">
+        <!-- Logo a la izquierda -->
+        <img th:src="@{${reserva.imagenAlojamiento}}" alt="Logo" class="card-logo">
+
+        <!-- Contenido de la reserva a la derecha -->
+        <div class="card-content">
+            <!-- Mostrar el nombre del alojamiento -->
+            <h3 th:text="'Alojamiento: ' + ${reserva.nombreAlojamiento}"></h3>
+            <p th:text="'Fecha Inicio: ' + ${reserva.fechaInicio}"></p>
+            <p th:text="'Fecha Fin: ' + ${reserva.fechaFin}"></p>
+            <p th:text="'Total Pagado: $' + ${reserva.total}"></p>
+            <p class="estado" th:text="'Estado: ' + ${reserva.estado}"></p>
+            <a href="/alojamiento/{id}" th:href="@{/alojamiento(id=${reserva.alojamientoId})}" class="button">Ver Alojamiento</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

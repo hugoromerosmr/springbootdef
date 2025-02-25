@@ -6,118 +6,166 @@
     <title th:text="${alojamiento.nombre}">Detalle del Alojamiento</title>
     <!-- Swiper CSS para el slider de imágenes -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.0.5/swiper-bundle.min.css">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Fondo de página en color principal (#082e34) */
+        /* Estilos generales */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             background-color: #082e34;
             margin: 0;
             padding: 0;
+            color: #082e34; /* Verde oscuro para el texto principal */
         }
-        /* Contenedor central con fondo blanco para contrastar */
+
+        /* Contenedor principal */
         .container {
-            max-width: 900px;
-            margin: 20px auto;
+            max-width: 1200px;
+            margin: 30px auto;
             background-color: #ffffff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
-        h2, h3 {
-            color: #082e34;
+
+        /* Títulos */
+        h1, h2, h3 {
+            color: #082e34; /* Verde oscuro para los títulos */
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 36px;
             text-align: center;
-            margin-top: 0;
         }
-        .info {
-            font-size: 16px;
-            margin: 10px 0;
-            text-align: left;
-            color: #082e34;
+
+        h2 {
+            font-size: 28px;
+            margin-top: 20px;
         }
-        .info strong {
-            color: #082e34;
+
+        h3 {
+            font-size: 24px;
+            margin-top: 15px;
         }
-        .rating {
-            color: #d4a063; /* Color secundario para acentos */
-            font-weight: bold;
-        }
-        /* Botón de reserva usando el color principal para el fondo */
-        .btn-reserva {
-            display: block;
-            width: 80%;
-            margin: 20px auto;
-            padding: 12px 20px;
-            background-color: #082e34;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            text-align: center;
-            transition: background 0.3s;
-        }
-        .btn-reserva:hover {
-            background-color: #071f2a;
-        }
+
         /* Slider de imágenes */
         .swiper {
             width: 100%;
-            height: 300px;
+            height: 400px;
             border-radius: 8px;
             overflow: hidden;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
+
         .swiper-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        /* Listas: Equipamiento, Servicios y Restricciones */
-        ul {
-            list-style: none;
-            padding: 0;
+
+        /* Información del alojamiento */
+        .info {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
-        ul li {
-            background-color: #f4f4f9;
-            margin: 5px 0;
-            padding: 8px 10px;
+
+        .info-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon {
+            font-size: 24px;
+            color: #D4A063; /* Amarillo dorado para los iconos */
+        }
+
+        .info-card p {
+            margin: 0;
+            font-size: 16px;
+            color: #082e34; /* Verde oscuro para el texto */
+        }
+
+        .info-card strong {
+            color: #082e34; /* Verde oscuro para el texto fuerte */
+            font-weight: 600;
+        }
+
+        /* Botón de reserva */
+        .btn-reserva {
+            display: block;
+            width: 80%;
+            margin: 20px auto;
+            padding: 12px 20px;
+            background-color: #D4A063; /* Amarillo dorado */
+            color: #ffffff;
+            text-decoration: none;
             border-radius: 5px;
-            text-align: left;
-            color: #082e34;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.3s, transform 0.3s;
+            font-size: 18px;
         }
+
+        .btn-reserva:hover {
+            background-color: #b8864f; /* Amarillo dorado más oscuro */
+            transform: scale(1.05);
+        }
+
         /* Mapa */
         .map-container {
             margin-top: 20px;
+            text-align: center;
         }
+
         .map-container iframe {
             width: 100%;
-            height: 300px;
+            height: 400px;
             border: none;
             border-radius: 8px;
+        }
+
+        /* Ajuste en pantallas pequeñas */
+        @media (max-width: 768px) {
+            .info-container {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-reserva {
+                width: 90%;
+            }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <!-- Título y botón de reserva -->
-    <h2 th:text="${alojamiento.nombre}">Nombre del Alojamiento</h2>
-    <a th:href="'/reservar/' + ${alojamiento.id}" class="btn-reserva">Reservar Ahora</a>
 
-    <!-- Información del alojamiento -->
-    <p class="info"><strong>Tipo:</strong> <span th:text="${alojamiento.tipo}"></span></p>
-    <p class="info"><strong>Descripción:</strong> <span th:text="${alojamiento.descripcion}"></span></p>
-    <p class="info"><strong>Capacidad Máxima:</strong> <span th:text="${alojamiento.capacidadMaxima}"></span> personas</p>
-    <p class="info"><strong>Habitaciones:</strong> <span th:text="${alojamiento.habitaciones}"></span></p>
-    <p class="info"><strong>Baños:</strong> <span th:text="${alojamiento.banos}"></span></p>
-    <p class="info">
-        <strong>Precio:</strong>
-        <span th:text="${alojamiento.precioMinimo}"></span> -
-        <span th:text="${alojamiento.precioMaximo}"></span>
-        <span th:text="${alojamiento.moneda}"></span>
-    </p>
-    <p class="info"><strong>Rating:</strong> <span class="rating" th:text="${alojamiento.rating}"></span> ⭐</p>
+<div class="container">
+    <!-- Título del alojamiento -->
+    <h1 th:text="${alojamiento.nombre}">Nombre del Alojamiento</h1>
 
     <!-- Slider de imágenes -->
-    <h3>Imágenes</h3>
     <div class="swiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide" th:each="img : ${alojamiento.imagenes}">
@@ -129,38 +177,64 @@
         <div class="swiper-button-prev"></div>
     </div>
 
-    <!-- Equipamiento -->
-    <h3>Equipamiento</h3>
-    <ul>
-        <li th:each="item : ${alojamiento.equipamiento}" th:text="${item}"></li>
-    </ul>
+    <!-- Información del alojamiento -->
+    <div class="info">
+        <div class="info-container">
+            <!-- Tarjeta para el tipo de alojamiento -->
+            <div class="info-card">
+                <i class="fas fa-home icon"></i>
+                <p><strong>Tipo:</strong> <span th:text="${alojamiento.tipo}"></span></p>
+            </div>
 
-    <!-- Servicios -->
-    <h3>Servicios</h3>
-    <ul>
-        <li th:each="servicio : ${alojamiento.servicios}" th:text="${servicio}"></li>
-    </ul>
+            <!-- Tarjeta para la descripción -->
+            <div class="info-card">
+                <i class="fas fa-info-circle icon"></i>
+                <p><strong>Descripción:</strong> <span th:text="${alojamiento.descripcion}"></span></p>
+            </div>
 
-    <!-- Restricciones -->
-    <h3>Restricciones</h3>
-    <ul>
-        <li th:each="restriccion : ${alojamiento.restricciones}" th:text="${restriccion}"></li>
-    </ul>
+            <!-- Tarjeta para la capacidad máxima -->
+            <div class="info-card">
+                <i class="fas fa-users icon"></i>
+                <p><strong>Capacidad Máxima:</strong> <span th:text="${alojamiento.capacidadMaxima}"></span> personas</p>
+            </div>
+
+            <!-- Tarjeta para las habitaciones -->
+            <div class="info-card">
+                <i class="fas fa-bed icon"></i>
+                <p><strong>Habitaciones:</strong> <span th:text="${alojamiento.habitaciones}"></span></p>
+            </div>
+
+            <!-- Tarjeta para los baños -->
+            <div class="info-card">
+                <i class="fas fa-bath icon"></i>
+                <p><strong>Baños:</strong> <span th:text="${alojamiento.banos}"></span></p>
+            </div>
+
+            <!-- Tarjeta para el precio -->
+            <div class="info-card">
+                <i class="fas fa-dollar-sign icon"></i>
+                <p><strong>Precio:</strong> <span th:text="${alojamiento.precioMinimo}"></span> - <span th:text="${alojamiento.precioMaximo}"></span> <span th:text="${alojamiento.moneda}"></span></p>
+            </div>
+
+            <!-- Tarjeta para el rating -->
+            <div class="info-card">
+                <i class="fas fa-star icon"></i>
+                <p><strong>Rating:</strong> <span class="rating" th:text="${alojamiento.rating}"></span> ⭐</p>
+            </div>
+        </div>
+    </div>
 
     <!-- Mapa de ubicación -->
-    <h3>Ubicación Geográfica</h3>
+    <h2>Ubicación Geográfica</h2>
     <div class="map-container">
         <iframe th:src="@{'https://www.google.com/maps?q=' + ${alojamiento.latitud} + ',' + ${#strings.replace(alojamiento.longitud, ',', '.')} + '&output=embed'}" allowfullscreen></iframe>
     </div>
 
-    <!-- Botón de reserva al final -->
+    <!-- Botón de reserva -->
     <a th:href="'/reservar/' + ${alojamiento.id}" class="btn-reserva">Reservar Ahora</a>
 </div>
 
-<!-- Swiper JS para el slider -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.0.5/swiper-bundle.min.js"></script>
 <script>
-    // Usamos window.onload para asegurarnos de que todos los elementos estén cargados
     window.onload = function() {
         var swiper = new Swiper('.swiper', {
             loop: true,
@@ -171,5 +245,8 @@
         });
     };
 </script>
+<!-- Swiper JS para el slider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/9.0.5/swiper-bundle.min.js"></script>
+
 </body>
 </html>
