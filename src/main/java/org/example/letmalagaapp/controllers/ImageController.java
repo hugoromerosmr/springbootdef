@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 @RestController
 @RequestMapping("/images")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://successful-alignment.up.railway.app")
 public class ImageController {
 
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
