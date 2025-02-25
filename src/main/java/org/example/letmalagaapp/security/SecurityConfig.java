@@ -74,6 +74,7 @@ public class SecurityConfig {
      * Configura el codificador de contraseñas.
      *
      * @return el codificador de contraseñas BCrypt
+     * @see BCryptPasswordEncoder
      */
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
