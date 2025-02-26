@@ -26,7 +26,5 @@ public class LetmalagaappApplication {
      *
      * @param registry el registro de mapeos CORS
      */
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:3000"); // Asegúrate de poner el origen correcto
-    }
+
 }
